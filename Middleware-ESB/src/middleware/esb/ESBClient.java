@@ -30,26 +30,27 @@ public class ESBClient {
         });
         
         String msgIn = "";
-        try {    
+        try { 
+            //creating socket and establishing connection
             socket = new Socket("127.0.0.1", 1201);
             din = new DataInputStream(socket.getInputStream());
             dout = new DataOutputStream(socket.getOutputStream());
             String name = socket.getInetAddress().getHostName();
             System.out.println("Connected to server " + name);
-            //
+            //get the client id from server
             msgIn = din.readUTF();
             id = Integer.parseInt(msgIn);
             System.out.println("My ID " + id);
-            System.out.print("Type request : ");
-            Scanner scanner = new Scanner(System.in);
-            String msgOut = scanner.next();
-            dout.writeUTF(id + msgOut);
-            //
+            
+            //sending requests to server
+            System.out.println("Request format : <service name>,<param1>,<param2>");
             while(!msgIn.equals("exit")){
+                System.out.print("Type request : ");
+                Scanner scanner = new Scanner(System.in);
+                String msgOut = scanner.next();
+                dout.writeUTF(id + "," + msgOut);
                 msgIn = din.readUTF();
-                System.out.print("Reply from server : ");
-                System.out.println(msgIn);
-                //msgArea.append("\n" + name +" : " + msgIn);
+                System.out.println("Reply from server : " + msgIn);
             }
             
         } catch (IOException ex) {

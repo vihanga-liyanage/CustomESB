@@ -31,7 +31,6 @@ public class ClientThread extends Thread{
             while(!msgIn.equals("exit")){
                 msgIn = din.readUTF();
                 ESBServer.clientRequest(msgIn);
-                //MessageServer.msgArea.setText(MessageServer.msgArea.getText() + "\n" + name + " : " + msgIn);
             }
         } catch (IOException ex) {
             ex.printStackTrace();
